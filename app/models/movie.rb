@@ -15,6 +15,7 @@
 class Movie < ApplicationRecord
   belongs_to :director
   has_many :characters
+  has_many :bookmarks, :through => :user
 
   has_many :cast, :through => :characters, :source => :actor
 end
