@@ -19,16 +19,21 @@
     </div>
 
 <hr>
-  
-<form action="/insert_bookmark" method="post">
-  <input type="hidden" value="1" id="movie_id_box" name="query_movie_id" class="form-control">
+<% if @current_user != nil  %>
+  <%  if Bookmark.where({ :movie_id => @the_movie.id }).where({:user_id => @current_user.id}).first %>
+    <a href="/delete_bookmark/<%= Bookmark.where({ movie_id: @the_movie.id }).where({:user_id => @current_user.id}).first.id %>">
+      Un-bookmark
+    </a>
+  <% else %>
+    <form action="/insert_bookmark" method="post">
+      <input type="hidden" value="1" id="movie_id_box" name="query_movie_id" class="form-control">
 
-  <button>
-    Bookmark this movie!
-  </button>
-</form>
-
-
+      <button>
+        Bookmark this movie
+      </button>
+    </form>
+  <% end %>
+<% end %>
     <dl>
       <dt>
         Title
@@ -69,7 +74,7 @@
         Director
       </dt>
       <dd>
-        <%= @the_movie.director_id %>
+        <%= @the_movie.director.name %>
       </dd>
 
       <dt>
